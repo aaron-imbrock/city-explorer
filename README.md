@@ -9,7 +9,7 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/e19610bf-9c6e-4ddd-a5aa-870bb3ae7fa9/deploy-status)](https://app.netlify.com/sites/city-explorer-07118c/deploys)
 
-DEMO: [CHECK IT OUT!](https://main--serene-gumption-07118c.netlify.app/)
+DEMO: [CHECK IT OUT!](https://city-explorer-07118c.netlify.app/)
 
 ## Overview
 <!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
@@ -22,13 +22,13 @@ DEMO: [CHECK IT OUT!](https://main--serene-gumption-07118c.netlify.app/)
 
 ## Architecture
 
-![web request-response cycle](./media/liq.png)
-
     Name of feature:                        Set up your React repository & API keys.
     Estimate of time needed to complete:    3 hours
     Start time:                             6PM
     Finish time:                            2AM
     Actual time needed to complete:         4 hours
+
+![web request-response cycle](./media/liq.png)
 
     Name of feature:                        Set up your React repository & API keys.
     Estimate of time needed to complete:    3 hours

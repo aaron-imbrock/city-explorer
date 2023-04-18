@@ -43,7 +43,7 @@ class Main extends React.Component {
             <form onSubmit={this.getCityData}>
                 {/* <button onClick={this.getPokemonData}>Catch Pokemon</button> */}
                 <label>
-                    <input type="text" onInput={this.handleCityInput}/>
+                    City Search: <input type="text" onInput={this.handleCityInput}/>
                 </label>
                 <button type="submit">Explore!</button>
             </form>
