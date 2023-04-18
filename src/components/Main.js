@@ -1,54 +1,55 @@
 import React from 'react';
 import axios from 'axios';
 
+const { REACT_APP_LOCATIONIQ_URL, REACT_APP_LOCATIONIQ_API_KEY,  } = process.env;
+
 class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pokemonData: [],
+            locationiq_search_url: `${REACT_APP_LOCATIONIQ_URL}&key=${REACT_APP_LOCATIONIQ_API_KEY}&q=`,
+            city: '',
+            cityData: [],
+            error: false,
         }
     }
-
-    // TODO: Make api call to pokemon api, then render the data in the re
-    // render method;
-    // ** async / await
-    // 
-    getPokemonData = async (event) => {
-        event.preventDefault();
-        // TODO: Use axios to help me make my API call
-        // ** Axios.get() -> 1 arg = url of the api that I want to hit
-        let pokemonData = await axios.get('https://pokeapi.co/api/v2/pokemon')
-        let pokemonResults = pokemonData.data;
-        console.log(pokemonData);
-        console.log(pokemonResults);
-        // ** .data - where axios stores the returned info
-        // ** .results - where THIS API stores the actual pokemon data
-
-        // TODO: store .results data in state
+    handleCityInput = (event) => {
+        // console.log(event.target.value);
         this.setState({
-            pokemonData: pokemonData.data.results,
+            city: event.target.value,
         })
-//         https://stackoverflow.com/a/71250760
-//         @erick-silva answer is not complete and prone to error.
-
-// The correct way to fetch an image for a specific pokemon is:
-
-// Fetch from PokeAPI the info for that pokemon, say bulbasaur. -> GET https://pokeapi.co/api/v2/pokemon/bulbasaur
-// Parse the returned JSON for the property .sprites, select the version we'd like to use and the variety for the sprite, say Pokemon Crystal front: .sprites.versions["generation-ii"].crystal.front_default
-// Use the provided link and load the image: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/1.png
-// Using this method will ensure that you will always fetch the correct image in case the ids change or the name of the image isn't the id of the pokemon.
- }
-
+        console.log('state in the state handler', this.state.city);
+    }
+    // ** async/await - handle our promises - call back from axios
+    getCityData = async (event) => {
+        event.preventDefault();
+        // TODO: define our url to pass to axios using the city in state
+        const url = this.state.locationiq_search_url + `${this.state.city}`;
+        console.log(url);
+        // TODO: Use the city that is in state, and call the location IQ API using axios
+        // let cityData = await axios.get(this.state.locationiq_search_url);
+        let cityData = await axios.get(url);
+        // TODO:  Take the return from axios and set that to state - 
+        console.log(cityData.data);
+        this.setState({
+            cityData: cityData.data
+        })
+        console.log(typeof(this.state.cityData))
+    }
     render() {
         return (
             <>
-            <h2>Pokemon Data</h2>
-            <form >
-                <button onClick={this.getPokemonData}>Catch Pokemon</button>
+            <h2>City Data</h2>
+            <form onSubmit={this.getCityData}>
+                {/* <button onClick={this.getPokemonData}>Catch Pokemon</button> */}
+                <label>
+                    <input type="text" onInput={this.handleCityInput}/>
+                </label>
+                <button type="submit">Explore!</button>
             </form>
 
             <ul>
-                {this.state.pokemonData.map((pokemon, idx) => <li key={idx}>{pokemon.name}</li>)}
+                {this.state.cityData.map((city, idx) => <li key={idx}>{city.display_name}</li>)}
             </ul>
             </>
         )
