@@ -32,7 +32,7 @@ class Main extends React.Component {
         // TODO:  Take the return from axios and set that to state - 
         console.log(cityData.data);
         this.setState({
-            cityData: cityData.data[0]
+            cityData: cityData.data
         })
         console.log(typeof(this.state.cityData))
     }
