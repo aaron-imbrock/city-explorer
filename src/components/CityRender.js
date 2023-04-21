@@ -1,7 +1,10 @@
 import React from 'react';
 import axios from 'axios';
+
+import { Image, Container, Row, Col } from 'react-bootstrap';
+
 import CitySearchForm from './CitySearchForm';
-import Image from 'react-bootstrap/Image'
+import generateCityMapURL from '../functions/generateMapURL';
 
 const { REACT_APP_LOCATIONIQ_URL, REACT_APP_LOCATIONIQ_API_KEY, } = process.env;
 
@@ -14,6 +17,7 @@ class Main extends React.Component {
             cityData: [],
             error: false,
             cityMapURL: '',
+            showData: false,
         }
     }
     handleCityInput = (event) => {
@@ -31,11 +35,16 @@ class Main extends React.Component {
             // DONE: Use the city that is in state, and call the location IQ API using axios
             let cityData = await axios.get(url);
             // DONE:  Take the return from axios and set that to state - 
+            // DONE: Move generateCityMapURL into it's own file and import it.
+            const cityMapURL = generateCityMapURL(cityData.data[0]);
             this.setState({
                 cityData: cityData.data[0],
-            })
+                cityMapURL: cityMapURL,
+                showData: true,
+            },
+                () => console.log(this.state.cityMapURL)
+            )
             console.log(cityData.data[0]);
-            this.generateCityMapURL()
         } catch (error) {
             this.setState({
                 error: true,
@@ -43,13 +52,7 @@ class Main extends React.Component {
             })
         }
     }
-    generateCityMapURL = (KEY=REACT_APP_LOCATIONIQ_API_KEY,lat=this.state.cityData.lat, lon=this.state.cityData.lon, zoom=12, size='300x300', format='png') => {
-        this.setState({
-            cityMapURL: `https://maps.locationiq.com/v3/staticmap?key=${KEY}&center=${lat},${lon}&zoom=${zoom}&size=${size}&format=${format}`,
-        }) 
-    }
     render() {
-        console.log(`City Map URL: ${this.state.cityMapUrl}`);
         return (
             <>
                 <h2>City Data</h2>
@@ -59,19 +62,22 @@ class Main extends React.Component {
                 />
                 {
                     this.state.error
-                    ? <p>{this.state.errorMsg}</p>
-                    : <>
-                    <p>City Name: {this.state.cityData.display_name}</p>
-                    <p>Latitude: {this.state.cityData.lat}</p>
-                    <p>Longitude: {this.state.cityData.lon}</p>
-                    <p>Icon: <Image src={this.state.cityData.icon} alt='cityicon'/></p>
-                    <p>Map: <Image src={this.state.cityMapURL} alt='Map of City'/></p>
-                    </>
+                        ? <p>{this.state.errorMsg}</p>
+                        : this.state.showData
+                            // TODO: Move render into CityLayout.js
+                            ? <Container>
+                                <Row><Col className=".mx-auto" md="auto"><h3>{this.state.cityData.display_name}</h3></Col></Row>
+                                <Row><Col md="auto"><Image src={this.state.cityMapURL} alt='Map of City' rounded fluid /></Col></Row>
+                                <Row>
+                                    <Col md="auto"><p>Latitude: {this.state.cityData.lat}</p></Col>
+                                    <Col md="auto"><p>Longitude: {this.state.cityData.lon}</p></Col>
+                                </Row>
+                            </Container>
+                            : <></>
                 }
             </>
         )
     }
 }
-
 
 export default Main;
