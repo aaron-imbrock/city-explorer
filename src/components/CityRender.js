@@ -65,7 +65,9 @@ class Main extends React.Component {
                         ? <p>{this.state.errorMsg}</p>
                         : this.state.showData
                             // TODO: Move render into CityLayout.js
-                            ? <Container>
+                            ? 
+                            <Container>
+
                                 <Row><Col className=".mx-auto" md="auto"><h3>{this.state.cityData.display_name}</h3></Col></Row>
                                 <Row><Col md="auto"><Image src={this.state.cityMapURL} alt='Map of City' rounded fluid /></Col></Row>
                                 <Row>
