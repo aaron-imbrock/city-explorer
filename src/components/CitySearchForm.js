@@ -10,7 +10,7 @@ class CitySearchForm extends Component {
                         <Form onSubmit={this.props.getCityData}>
                             <Form.Group as={Row} className=".mx-auto">
                                 <Form.Control type="text" placeholder="Search for a city..." onInput={this.props.handleCityInput} />
-                                <Col md="auto"><Button column sm="8" type="submit">Explore!</Button></Col>
+                                <Col md="auto"><Button sm="8" type="submit">Explore!</Button></Col>
                             </Form.Group>
                         </Form>
                     </Col>
